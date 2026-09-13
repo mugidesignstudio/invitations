@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<!-- ============================================================
+     INVITACIÓN ILIA KASSANDRA — guía rápida de edición
+     ------------------------------------------------------------
+     1) TEXTOS DE LA INVITACIÓN (nombre, fecha, lugar): están DENTRO
+        de las imágenes assets/headline.png, name.png, details.png.
+        Para cambiarlos hay que reemplazar esas imágenes (mismo tamaño).
+     2) TEXTOS EDITABLES (intro, botones, juego): están más abajo,
+        marcados con la palabra TEXTO, o en el bloque de PROPS.
+     3) COLORES DE LA MARCA (usados en todo el archivo):
+          #d66780  rosa fuerte (bordes, botones)
+          #a8455f  rosa oscuro (títulos, nombre)
+          #e9a7b6  rosa claro
+          #6f7d44 / #8c9a5f  verdes de texto
+          #cdd8a6 / #b6c48c  verdes del suelo del juego
+          #f3e9da  fondo cuadriculado / #fdf7ec  crema claro
+     4) TIEMPOS DE ANIMACIÓN: los @keyframes están aquí abajo y los
+        retrasos (delays) en cada "animation: ... Xs" del bloque.
+     5) DURACIÓN DEL INTRO DEL SOBRE: en el JS, método onOpen (2050 ms).
+     ============================================================ -->
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700&display=swap">
+<style>
+  /* --- Fondo cuadriculado (gingham) y tipografía base --- */
+  html, body { margin: 0; padding: 0; }
+  body {
+    background-color: #f3e9da;
+    background-image:
+      repeating-linear-gradient(90deg, rgba(182,211,174,.182) 0 20px, transparent 20px 40px),
+      repeating-linear-gradient(0deg, rgba(182,211,174,.182) 0 20px, transparent 20px 40px);
+    font-family: 'Baloo 2', system-ui, sans-serif;
+    color: #6f7d44;
+  }
+  a { color: #a8455f; text-decoration: none; }
+  a:hover { color: #d66780; }
+  /* --- ANIMACIONES: cambia duraciones/valores aquí --- */
+  @keyframes iCard { from { opacity: 0; transform: translateY(18px) scale(.975); } to { opacity: 1; transform: none; } }
+  @keyframes iUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+  @keyframes iPop { 0% { opacity: 0; transform: scale(.82) rotate(-5deg); } 60% { opacity: 1; transform: scale(1.04) rotate(1.5deg); } 100% { opacity: 1; transform: scale(1) rotate(0); } }
+  @keyframes iName { 0% { opacity: 0; transform: scale(.9); letter-spacing: 0; } 100% { opacity: 1; transform: scale(1); } }
+  @keyframes iFloat { 0%, 100% { transform: translateY(0) rotate(-.6deg); } 50% { transform: translateY(-7px) rotate(.6deg); } }
+  @keyframes iBreathe { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
+  @keyframes iDrift { 0% { transform: translateY(6px) scale(.9); opacity: 0; } 25% { opacity: .85; } 100% { transform: translateY(-58px) scale(1.05); opacity: 0; } }
+  @keyframes iPulse { 0%, 100% { transform: translateY(0); box-shadow: 0 6px 0 #b34e66; } 50% { transform: translateY(-3px); box-shadow: 0 9px 0 #b34e66; } }
+  @keyframes iBlink { 0%, 100% { opacity: .35; } 50% { opacity: 1; } }
+  @keyframes iWiggle { 0%, 100% { transform: rotate(-1.6deg) translateY(0); } 50% { transform: rotate(1.6deg) translateY(-6px); } }
+  @keyframes iFlap { 0% { transform: rotateX(0); } 100% { transform: rotateX(-168deg); } }
+  @keyframes iRoarPop { 0% { transform: scale(1) translateY(0); } 35% { transform: scale(1.5) translateY(-26px) rotate(-6deg); } 60% { transform: scale(1.42) translateY(-18px) rotate(4deg); } 100% { transform: scale(1.46) translateY(-22px) rotate(0); } }
+  @keyframes iRoarText { 0% { opacity: 0; transform: scale(.4) rotate(-8deg); } 45% { opacity: 1; transform: scale(1.12) rotate(2deg); } 70% { transform: scale(1) rotate(-1deg); } 100% { opacity: 1; transform: scale(1.02) rotate(0); } }
+  @keyframes iRay { 0% { opacity: 0; transform: scaleY(.2); } 40% { opacity: .9; transform: scaleY(1); } 100% { opacity: 0; transform: scaleY(1.15); } }
+  @keyframes iFadeOut { to { opacity: 0; transform: scale(1.06); } }
+  @keyframes iCurtain { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes iRise { 0% { opacity: 0; transform: translateY(46%) scale(.6); } 55% { opacity: 1; transform: translateY(-12%) scale(1.06) rotate(-4deg); } 100% { opacity: 1; transform: translateY(-6%) scale(1) rotate(0); } }
+  @keyframes iShake { 0%, 100% { transform: rotate(0); } 20% { transform: rotate(-2.5deg); } 40% { transform: rotate(2.5deg); } 60% { transform: rotate(-1.5deg); } 80% { transform: rotate(1.5deg); } }
+</style>
+</helmet>
+
+<div style="min-height: 100%; display: flex; flex-direction: column; align-items: center; gap: 34px; padding: 28px 16px 64px;">
+
+  <!-- ========== 1. PANTALLA DEL SOBRE (intro) ========== -->
+  <sc-if value="{{ showIntro }}" hint-placeholder-val="{{ true }}">
+    <div style="position: fixed; inset: 0; z-index: 60; overflow: auto; display: flex; flex-direction: column; align-items: center; justify-content: safe center; gap: 26px; padding: 24px; background-color: #f3e9da; background-image: repeating-linear-gradient(90deg, rgba(182,211,174,.182) 0 20px, transparent 20px 40px), repeating-linear-gradient(0deg, rgba(182,211,174,.182) 0 20px, transparent 20px 40px);">
+      <div style="display: flex; align-items: center; gap: 10px; color: #8c9a5f; font-size: 14px; letter-spacing: .18em; text-transform: uppercase; font-weight: 600; justify-content: center;">
+        <span style="width: 22px; height: 2px; background: #d66780; display: block;"></span>
+        <span>tienes una invitación</span><!-- TEXTO -->
+        <span style="width: 22px; height: 2px; background: #d66780; display: block;"></span>
+      </div>
+
+      <div onClick="{{ onOpen }}" style="position: relative; width: min(520px, 92vw); margin-top: clamp(40px, 9vh, 96px); cursor: pointer;">
+        <div style="position: relative; width: 100%; aspect-ratio: 1536 / 1024;">
+          <sc-if value="{{ closed }}" hint-placeholder-val="{{ true }}">
+            <!-- Sobre CERRADO (imagen). Cambia el archivo para otro sobre -->
+            <img src="img/Sobre-close.png" alt="Sobre en forma de dinosaurio" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; animation: iWiggle 3s ease-in-out infinite;">
+          </sc-if>
+
+          <sc-if value="{{ opening }}" hint-placeholder-val="{{ false }}">
+            <!-- Sobre ABIERTO + bebé-sauria que sale + ROAR -->
+            <img src="img/Sobre-open.png" alt="Sobre abierto" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; animation: iShake .5s ease-in-out both;">
+
+            <div style="position: absolute; left: 51%; bottom: 40%; width: 26%; margin-left: -13%; animation: iRise .85s cubic-bezier(.2,.9,.3,1) .3s both;">
+              <img src="img/Ilia.png" alt="bebé-sauria" style="width: 100%; display: block;">
+            </div>
+
+            <div style="position: absolute; left: 51%; top: 2%; width: 34%; margin-left: -17%; animation: iRay 1s ease-out .55s both;">
+              <div style="position: absolute; left: 8%; top: 0; width: 5px; height: 52px; background: #f3cf8e; transform: rotate(-26deg); transform-origin: bottom center;"></div>
+              <div style="position: absolute; left: 49%; top: -16px; width: 5px; height: 62px; background: #e9a7b6; transform-origin: bottom center;"></div>
+              <div style="position: absolute; left: 90%; top: 0; width: 5px; height: 52px; background: #cdd8a6; transform: rotate(26deg); transform-origin: bottom center;"></div>
+            </div>
+
+            <div style="position: absolute; left: 0; right: 0; top: -14%; display: flex; justify-content: center;">
+              <div style="font-size: clamp(34px, 10vw, 56px); font-weight: 700; color: #a8455f; white-space: nowrap; text-shadow: 0 3px 0 #fdf7ec, 0 0 16px rgba(253,247,236,.95); animation: iRoarText .8s cubic-bezier(.2,.9,.3,1) .6s both;">¡ROAAAR!</div><!-- TEXTO del rugido -->
+            </div>
+          </sc-if>
+        </div>
+      </div>
+
+      <sc-if value="{{ closed }}" hint-placeholder-val="{{ true }}">
+        <button type="button" onClick="{{ onOpen }}" id="ilia-open" style="margin-top: 6px; border: none; cursor: pointer; font-family: inherit; font-size: 19px; font-weight: 700; color: #fdf7ec; background: #d66780; padding: 14px 32px 16px; border-radius: 999px; box-shadow: 0 6px 0 #b34e66; animation: iPulse 2.4s ease-in-out infinite;" style-hover="background: #c9576f;" style-active="transform: translateY(4px); box-shadow: 0 2px 0 #b34e66;">Abrir el sobre</button><!-- TEXTO del botón -->
+      </sc-if>
+
+      <sc-if value="{{ opening }}" hint-placeholder-val="{{ false }}">
+        <div style="position: absolute; inset: 0; pointer-events: none; background-color: #f3e9da; background-image: repeating-linear-gradient(90deg, rgba(182,211,174,.182) 0 20px, transparent 20px 40px), repeating-linear-gradient(0deg, rgba(182,211,174,.182) 0 20px, transparent 20px 40px); opacity: 0; animation: iCurtain .5s ease 1.5s both;"></div>
+      </sc-if>
+    </div>
+  </sc-if>
+
+  <!-- ========== 2. INVITACIÓN ANIMADA (capas de tu diseño) ========== -->
+  <!-- base.png = fondo+marco+dino / las otras 4 son las capas que se animan.
+       left/top/width en % = posición exacta sobre la invitación de 700x840.
+       Si reemplazas una imagen, conserva su tamaño para no mover nada. -->
+  <sc-if value="{{ revealed }}" hint-placeholder-val="{{ true }}">
+  <div style="width: min(700px, 100%); animation: iBreathe 7s ease-in-out 1.6s infinite;">
+    <div style="position: relative; width: 100%; aspect-ratio: 700 / 840; animation: iCard .85s cubic-bezier(.2,.8,.25,1) both; box-shadow: 0 18px 40px rgba(111,125,68,.16);">
+      <img src="img/Inv-base.png" alt="Invitación de cumpleaños de Ilia Kassandra" style="position: absolute; inset: 0; width: 100%; height: 100%; display: block;">
+
+      <img src="assets/headline.png" alt="nuestra bebé-sauria esta de cumpleaños" style="position: absolute; left: 29.4286%; top: 11.4286%; width: 42.8571%; animation: iUp .7s cubic-bezier(.2,.8,.25,1) .45s both;">
+
+      <div style="position: absolute; left: 14.8571%; top: 38.8095%; width: 27.7143%; animation: iPop .8s cubic-bezier(.2,.9,.25,1) 1.05s both;">
+        <img src="img/Ilia.png" alt="Ilia Kassandra" style="width: 100%; display: block; animation: iFloat 4.5s ease-in-out 1.9s infinite;">
+      </div>
+
+      <img src="assets/name.png" alt="Ilia Kassandra" style="position: absolute; left: 42.5714%; top: 42.381%; width: 42.8571%; animation: iName .8s cubic-bezier(.2,.85,.25,1) 1.35s both;">
+
+      <img src="assets/details.png" alt="Celebremos juntos este Domingo 18 de octubre 13:00 p.m. Il Giardino dell'amore" style="position: absolute; left: 16%; top: 65.7143%; width: 58.8571%; animation: iUp .75s cubic-bezier(.2,.8,.25,1) 1.75s both;">
+
+      <!-- Confeti flotante: duplica o borra estos 4 puntos -->
+      <div style="position: absolute; left: 3%; top: 52%; width: 9px; height: 9px; border-radius: 50%; background: #e9a7b6; animation: iDrift 6s ease-in-out 2.4s infinite;"></div>
+      <div style="position: absolute; left: 93.5%; top: 40%; width: 7px; height: 7px; border-radius: 50%; background: #cdd8a6; animation: iDrift 7.5s ease-in-out 3.6s infinite;"></div>
+      <div style="position: absolute; left: 1.5%; top: 78%; width: 7px; height: 7px; border-radius: 50%; background: #f3cf8e; animation: iDrift 8s ease-in-out 5s infinite;"></div>
+      <div style="position: absolute; left: 95.5%; top: 68%; width: 9px; height: 9px; border-radius: 50%; background: #e9a7b6; animation: iDrift 6.8s ease-in-out 6.2s infinite;"></div>
+    </div>
+  </div>
+
+  <!-- ========== 3. LLAMADO A JUGAR ========== -->
+  <div style="width: min(700px, 100%); display: flex; flex-direction: column; align-items: center; gap: 14px; text-align: center; animation: iUp .8s ease 2.2s both;">
+    <div style="display: flex; align-items: center; gap: 10px; color: #8c9a5f; font-size: 15px; letter-spacing: .16em; text-transform: uppercase; font-weight: 600;">
+      <span style="width: 26px; height: 2px; background: #d66780; display: block;"></span>
+      <span>y antes de la fiesta…</span><!-- TEXTO -->
+      <span style="width: 26px; height: 2px; background: #d66780; display: block;"></span>
+    </div>
+    <h2 style="margin: 0; font-size: 30px; line-height: 1.15; font-weight: 700; color: #6f7d44;">¡Juega con la bebé-sauria!</h2><!-- TEXTO -->
+    <p style="margin: 0; max-width: 420px; font-size: 17px; line-height: 1.4; color: #7f8b55;">{{ intro }}</p>
+    <button type="button" onClick="{{ goToGame }}" style="margin-top: 4px; border: none; cursor: pointer; font-family: inherit; font-size: 19px; font-weight: 700; color: #fdf7ec; background: #d66780; padding: 14px 30px 16px; border-radius: 999px; box-shadow: 0 6px 0 #b34e66; animation: iPulse 2.6s ease-in-out 3s infinite;" style-hover="background: #c9576f;" style-active="transform: translateY(4px); box-shadow: 0 2px 0 #b34e66;">{{ ctaLabel }}</button>
+    <a href="#juego" onClick="{{ goToGame }}" style="font-size: 15px; font-weight: 600; border-bottom: 2px solid #e9a7b6; padding-bottom: 1px;">o toca aquí para jugar ▾</a><!-- TEXTO -->
+  </div>
+
+  <!-- ========== 4. JUEGO: salta los huevitos ==========
+       Altura de la pista: height: 300px (más abajo).
+       Física y velocidad: en el JS (gravedad 1900, salto 640, speed inicial 250). -->
+  <div id="juego" style="width: min(700px, 100%); display: flex; flex-direction: column; gap: 12px;">
+    <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap;">
+      <h3 style="margin: 0; font-size: 22px; font-weight: 700; color: #a8455f;">Salta los huevitos</h3><!-- TEXTO -->
+      <div style="display: flex; gap: 14px; font-size: 15px; font-weight: 600; color: #8c9a5f; white-space: nowrap;"><span>Puntos <span id="ilia-score" style="color: #a8455f;">0</span></span><span>Mejor <span style="color: #a8455f;">{{ best }}</span></span></div>
+    </div>
+
+    <div id="ilia-stage" style="position: relative; width: 100%; height: 300px; overflow: hidden; border: 4px solid #d66780; border-radius: 26px; background: #fdf7ec; cursor: pointer; user-select: none; touch-action: manipulation;">
+      <div style="position: absolute; left: 0; right: 0; bottom: 0; height: 46px; background: #cdd8a6; border-top: 4px solid #b6c48c;"></div>
+      <div style="position: absolute; left: 6%; top: 34px; width: 74px; height: 30px; border-radius: 999px; background: #eef4e2; opacity: .9;"></div>
+      <div style="position: absolute; right: 12%; top: 62px; width: 54px; height: 22px; border-radius: 999px; background: #eef4e2; opacity: .9;"></div>
+
+      <div id="ilia-obs" style="position: absolute; inset: 0;"></div>
+
+      <!-- Personaje del juego (la misma foto recortada) -->
+      <img id="ilia-player" src="assets/baby.png" alt="" style="position: absolute; left: 46px; bottom: 42px; width: 72px; transform-origin: 50% 100%;">
+
+      <!-- Cartel de inicio / fin de partida (sus textos están en el JS: overlayTitle, overlayHint, overlayBtn) -->
+      <sc-if value="{{ showOverlay }}" hint-placeholder-val="{{ true }}">
+        <div style="position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; text-align: center; background: rgba(253,247,236,.88); padding: 20px;">
+          <div style="font-size: 25px; font-weight: 700; color: #a8455f;">{{ overlayTitle }}</div>
+          <div style="font-size: 16px; color: #7f8b55; max-width: 320px; line-height: 1.35;">{{ overlayHint }}</div>
+          <button type="button" onClick="{{ onStart }}" style="margin-top: 6px; border: none; cursor: pointer; font-family: inherit; font-size: 18px; font-weight: 700; color: #fdf7ec; background: #d66780; padding: 12px 26px 14px; border-radius: 999px; box-shadow: 0 5px 0 #b34e66;" style-hover="background: #c9576f;" style-active="transform: translateY(3px); box-shadow: 0 2px 0 #b34e66;">{{ overlayBtn }}</button>
+        </div>
+      </sc-if>
+    </div>
+
+    <p style="margin: 0; font-size: 14px; color: #8c9a5f; text-align: center;">Toca la pantalla o presiona la barra espaciadora para saltar.</p><!-- TEXTO -->
+  </div>
+  </sc-if>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;ctaLabel&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Jugar ahora&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;intro&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Preparamos un juego chiquito para ti: ayuda a Ilia a saltar los huevitos de dinosaurio.&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;speed&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:1,&quot;min&quot;:0.7,&quot;max&quot;:1.6,&quot;step&quot;:0.1,&quot;tsType&quot;:&quot;number&quot;}}">
+class Component extends DCLogic {
+  // phase: estado del juego ('idle' | 'run' | 'over')
+  // intro: estado del sobre ('sobre' = cerrado, 'roar' = abriéndose, 'done' = ya se ve la invitación)
+  state = { phase: 'idle', best: 0, intro: 'sobre' };
+
+  constructor(p) {
+    super(p);
+    this.el = (id) => document.getElementById(id);
+    this.obs = [];
+    this.onKey = (e) => {
+      if (e.code === 'Space' || e.code === 'ArrowUp') { e.preventDefault(); this.tap(); }
+    };
+  }
+
+  componentDidMount() {
+    let best = 0;
+    try { best = parseInt(localStorage.getItem('ilia-sauria-best') || '0', 10) || 0; } catch (e) {}
+    this.setState({ best });
+    window.addEventListener('keydown', this.onKey);
+    this.onVis = () => { if (!document.hidden) this.last = performance.now(); };
+    document.addEventListener('visibilitychange', this.onVis);
+    this.bindTimer = setInterval(this.bindStage, 400);
+    this.bindStage();
+  }
+
+  componentDidUpdate() { this.bindStage(); }
+
+  componentWillUnmount() {
+    window.removeEventListener('keydown', this.onKey);
+    if (this.onVis) document.removeEventListener('visibilitychange', this.onVis);
+    if (this.raf) cancelAnimationFrame(this.raf);
+    if (this.bindTimer) clearInterval(this.bindTimer);
+    (this.timers || []).forEach(clearTimeout);
+  }
+
+  bindStage = () => {
+    const st = this.el('ilia-stage');
+    if (st && st.__iliaBound !== this) {
+      st.__iliaBound = this;
+      st.addEventListener('pointerdown', this.onStagePointer);
+    }
+  };
+
+  onStagePointer = (e) => { e.preventDefault(); this.tap(); };
+
+  // Abre el sobre: dispara el ROAR y, tras 2050 ms, muestra la invitación.
+  // Cambia ese número para alargar/acortar el intro.
+  onOpen = () => {
+    if (this.state.intro !== 'sobre') return;
+    this.setState({ intro: 'roar' });
+    this.timers = this.timers || [];
+    this.timers.push(setTimeout(() => this.setState({ intro: 'done' }), 2050));
+  };
+
+  goToGame = (e) => {
+    if (e && e.preventDefault) e.preventDefault();
+    const el = this.el('juego');
+    if (!el) return;
+    const top = el.getBoundingClientRect().top + (window.scrollY || document.documentElement.scrollTop || 0) - 24;
+    const sc = document.scrollingElement || document.documentElement;
+    if (sc && sc.scrollTo) sc.scrollTo({ top, behavior: 'smooth' });
+    window.scrollTo({ top, behavior: 'smooth' });
+  };
+
+  // Salto del juego (clic/tap en la pista o barra espaciadora).
+  // vy = 640 -> fuerza del salto
+  tap = () => {
+    if (this.phase !== 'run') { this.start(); return; }
+    if (performance.now() - (this.startedAt || 0) < 220) return;
+    if (this.y <= 1) { this.vy = 640; this.onGround = false; }
+  };
+
+  // Inicia una partida. speed = velocidad inicial (250 * prop speed)
+  start = () => {
+    this.obs.forEach(o => o.el.remove());
+    this.obs = [];
+    this.y = 0; this.vy = 0; this.onGround = true;
+    this.score = 0; this.dist = 0; this.next = 320;
+    this.speed = 250 * (this.props.speed ?? 1);
+    const sc0 = this.el('ilia-score');
+    if (sc0) sc0.textContent = '0';
+    this.last = performance.now();
+    this.startedAt = this.last;
+    this.phase = 'run';
+    this.setState({ phase: 'run' });
+    if (this.raf) cancelAnimationFrame(this.raf);
+    this.raf = requestAnimationFrame(this.loop);
+  };
+
+  // Crea un huevito (obstáculo). Colores/tamaño del huevo aquí.
+  spawn() {
+    const stage = this.el('ilia-stage'), holder = this.el('ilia-obs');
+    if (!stage || !holder) return;
+    const el = document.createElement('div');
+    const tall = Math.random() < 0.35;
+    const w = tall ? 34 : 40, h = tall ? 56 : 42;
+    el.style.cssText = 'position:absolute;bottom:42px;width:' + w + 'px;height:' + h + 'px;' +
+      'border-radius:50% 50% 48% 48% / 62% 62% 38% 38%;' +
+      'background-color:#f7e3a8;' +
+      'background-image:radial-gradient(circle at 30% 32%, #f0b8c4 3.5px, transparent 4px),' +
+      'radial-gradient(circle at 68% 58%, #f0b8c4 3.5px, transparent 4px),' +
+      'radial-gradient(circle at 40% 78%, #f0b8c4 3px, transparent 3.5px);' +
+      'box-shadow:inset -4px -6px 0 rgba(214,148,60,.16);';
+    el.style.left = stage.clientWidth + 'px';
+    holder.appendChild(el);
+    this.obs.push({ el, x: stage.clientWidth, w, h, passed: false });
+  }
+
+  // Bucle del juego: gravedad 1900, aceleración +5/s, separación entre huevos 260-520px
+  loop = (t) => {
+    const stage = this.el('ilia-stage');
+    if (this.phase !== 'run') return;
+    if (!stage) { this.raf = requestAnimationFrame(this.loop); this.last = t; return; }
+    const dt = Math.min(0.05, (t - this.last) / 1000);
+    this.last = t;
+
+    this.vy -= 1900 * dt;
+    this.y += this.vy * dt;
+    if (this.y <= 0) { this.y = 0; this.vy = 0; this.onGround = true; }
+    const p = this.el('ilia-player');
+    if (p) {
+      const squash = this.onGround ? 1 : 1 + Math.min(0.06, Math.abs(this.vy) / 9000);
+      p.style.transform = 'translateY(' + (-this.y) + 'px) rotate(' + (this.onGround ? 0 : this.vy * 0.006) + 'deg) scaleY(' + squash + ')';
+    }
+
+    this.speed += 5 * dt;
+    this.dist += this.speed * dt;
+    if (this.dist > this.next) { this.spawn(); this.next = this.dist + 260 + Math.random() * 260; }
+
+    const px = 46, pw = 60, ph = 62;
+    for (let i = this.obs.length - 1; i >= 0; i--) {
+      const o = this.obs[i];
+      o.x -= this.speed * dt;
+      o.el.style.left = o.x + 'px';
+      if (o.x + o.w < px && !o.passed) {
+        o.passed = true; this.score++;
+        const sEl = this.el('ilia-score');
+        if (sEl) sEl.textContent = String(this.score);
+      }
+      if (o.x < -80) { o.el.remove(); this.obs.splice(i, 1); continue; }
+      const hit = o.x < px + pw - 10 && o.x + o.w > px + 10 && this.y < o.h - 8;
+      if (hit) { this.gameOver(); return; }
+    }
+    this.raf = requestAnimationFrame(this.loop);
+  };
+
+  gameOver() {
+    this.phase = 'over';
+    if (this.raf) cancelAnimationFrame(this.raf);
+    const best = Math.max(this.state.best, this.score);
+    try { localStorage.setItem('ilia-sauria-best', String(best)); } catch (e) {}
+    this.setState({ phase: 'over', best });
+  }
+
+  renderVals() {
+    const { phase, best, intro } = this.state;
+    const s = this.score || 0;
+    return {
+      best,
+      showIntro: intro !== 'done',
+      revealed: intro === 'done',
+      closed: intro === 'sobre',
+      opening: intro === 'roar',
+      onOpen: this.onOpen,
+      showOverlay: phase !== 'run',
+      overlayTitle: phase === 'over' ? (s > 0 ? '¡' + s + ' huevitos saltados!' : '¡Uy, un huevito!') : 'Salta con la bebé-sauria',
+      overlayHint: phase === 'over' ? 'Tu mejor marca es ' + best + '. ¿Otra vuelta antes del 18 de octubre?' : 'Ayúdala a saltar los huevitos de camino a su fiesta.',
+      overlayBtn: phase === 'over' ? 'Jugar otra vez' : '¡Empezar!',
+      // Textos editables desde el panel de Tweaks (ver data-props arriba)
+      ctaLabel: this.props.ctaLabel ?? 'Jugar ahora',
+      intro: this.props.intro ?? 'Preparamos un juego chiquito para ti: ayuda a Ilia a saltar los huevitos de dinosaurio.',
+      onStart: this.start,
+      onTap: this.tap,
+      goToGame: this.goToGame
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ilia Kassandra · 1er cumpleaños</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700&display=swap">
+
+<!--
+  ============================================================
+  INVITACIÓN ANIMADA · ILIA KASSANDRA
+  ------------------------------------------------------------
+  CÓMO SE USA
+    Sube esta carpeta completa (index.html + carpeta assets) a
+    cualquier hosting. Todo funciona sin librerías.
+
+  QUÉ HAY DENTRO
+    1) PANTALLA DEL SOBRE  ->  #intro
+    2) INVITACIÓN ANIMADA  ->  #invitacion  (capas de tu diseño)
+    3) LLAMADO A JUGAR     ->  #cta
+    4) JUEGO               ->  #juego
+
+  DÓNDE ESTÁN LOS TEXTOS
+    · Los textos DE LA INVITACIÓN (nombre, fecha, lugar) están
+      dentro de las imágenes assets/headline.png, name.png y
+      details.png. Para cambiarlos hay que reemplazar la imagen
+      (con el mismo tamaño para que no se mueva nada).
+    · Todos los demás textos son HTML y están marcados con el
+      comentario  TEXTO  en su línea.
+
+  COLORES DE MARCA (búscalos y reemplázalos si hace falta)
+    #d66780 rosa fuerte · #a8455f rosa oscuro · #e9a7b6 rosa claro
+    #6f7d44 / #8c9a5f verdes de texto · #cdd8a6 / #b6c48c verdes suelo
+    #f3e9da fondo cuadriculado · #fdf7ec crema claro
+
+  TIEMPOS
+    · Animaciones: bloque @keyframes y los "animation-delay" del CSS.
+    · Duración del intro del sobre: constante INTRO_MS (en el JS).
+  ============================================================
+-->
+<link rel="icon" type="image/png" href="img/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Delius&family=Delius+Swash+Caps&family=Inter:wght@300;400;500;600;700&family=Madimi+One&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* ---------- TIPOGRAFÍAS ---------- */
+  --fuente-texto: 'Delius Swash Caps', sans-serif;
+  --fuente-acento:  'Madimi One', sans-serif;
+  --fuente-nombre:   'Delius', sans-serif;
+  --fuente-dir:   'Inter', sans-serif;
+
+  /* ---------- COLORES ---------- */
+  --rosa: #894151;
+  --verde: #6d7146;
+  --crema: #FDF5EF;
+  --crema-fondo: #F6ECE4;
+  --verde: #3F4E49;
+  --gris: #5C534D;
+  --gris-claro: #8C7A6E;
+  --linea: #E7CFBE;
+
+}
+
+  /* ---------- Base y fondo cuadriculado (gingham) ---------- */
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: 'Baloo 2', system-ui, sans-serif;
+    color: #6f7d44;
+    background-color: #f3e9da;
+    background-image:
+      repeating-linear-gradient(90deg, rgba(182,211,174,.182) 0 20px, transparent 20px 40px),
+      repeating-linear-gradient(0deg, rgba(182,211,174,.182) 0 20px, transparent 20px 40px);
+  }
+  a { color: #a8455f; text-decoration: none; }
+  a:hover { color: #d66780; }
+  img { display: block; }
+
+  .nombre{ font-family:var(--fuente-nombre); font-size:60px; color:var(--rosa);}
+  .texto{ font-family:var(--fuente-texto); font-size:28px; color:var(--verde);}
+  .direccion{ font-family:var(--fuente-dir); font-size:16px; color:var(--verde);}
+  .fecha{ font-family:var(--fuente-dir); font-size:22px; color:var(--verde); font-weight: 600;}
+  .titulo{ font-family:var(--fuente-acento); font-size:36px; color:var(--verde);}
+  .subtitulo{ font-family:var(--fuente-acento); font-size:32px; color:var(--verde);}
+
+
+
+  .wrap { min-height: 100vh; display: flex; flex-direction: column; align-items: center; gap: 34px; padding: 28px 16px 64px; }
+  .col700 { width: min(700px, 100%); }
+  .kicker { display: flex; align-items: center; justify-content: center; gap: 10px; color: #8c9a5f; font-size: 14px; letter-spacing: .18em; text-transform: uppercase; font-weight: 600; }
+  .kicker i { width: 24px; height: 2px; background: #d66780; display: block; }
+
+  /* Botón rosa (se usa en el sobre, en el CTA y en el juego) */
+  .btn {
+    border: none; cursor: pointer; font-family: inherit; font-weight: 700;
+    color: #fdf7ec; background: #d66780; font-size: 19px;
+    padding: 14px 32px 16px; border-radius: 999px; box-shadow: 0 6px 0 #b34e66;
+  }
+  .btn:hover { background: #c9576f; }
+  .btn:active { transform: translateY(4px); box-shadow: 0 2px 0 #b34e66; }
+  .btn:focus-visible { outline: 3px solid #a8455f; outline-offset: 3px; }
+  .btn.pulse { animation: iPulse 2.4s ease-in-out infinite; }
+
+  /* ---------- 1. PANTALLA DEL SOBRE ---------- */
+  #intro {
+    position: fixed; inset: 0; z-index: 60; overflow: auto;
+    display: flex; flex-direction: column; align-items: center; justify-content: safe center;
+    gap: 26px; padding: 24px;
+    background-color: #f3e9da;
+    background-image:
+      repeating-linear-gradient(90deg, rgba(182,211,174,.182) 0 20px, transparent 20px 40px),
+      repeating-linear-gradient(0deg, rgba(182,211,174,.182) 0 20px, transparent 20px 40px);
+  }
+  #intro.oculto { display: none; }                 /* se apaga al terminar el intro */
+  .sobre { position: relative; width: min(520px, 92vw); margin-top: clamp(40px, 9vh, 96px); cursor: pointer; }
+  .sobre-marco { position: relative; width: 100%; aspect-ratio: 1536 / 1024; }
+  .sobre-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
+  #sobreCerrado { animation: iWiggle 3s ease-in-out infinite; }   /* balanceo del sobre cerrado */
+  #sobreAbierto, .roar, .rayos, .salida { display: none; }         /* aparecen al abrir */
+
+  /* Estado "abriendo": se activa al hacer clic (clase .abriendo en .sobre) */
+  .sobre.abriendo #sobreCerrado { display: none; }
+  .sobre.abriendo #sobreAbierto { display: block; animation: iShake .5s ease-in-out both; }
+  .sobre.abriendo .salida { display: block; animation: iRise .85s cubic-bezier(.2,.9,.3,1) .3s both; }
+  .sobre.abriendo .rayos  { display: block; animation: iRay 1s ease-out .55s both; }
+  .sobre.abriendo .roar   { display: flex;  }
+  .sobre.abriendo .roar span { animation: iRoarText .8s cubic-bezier(.2,.9,.3,1) .6s both; }
+
+  .salida { position: absolute; left: 51%; bottom: 40%; width: 26%; margin-left: -13%; } /* la bebé-sauria saliendo */
+  .rayos { position: absolute; left: 51%; top: 2%; width: 34%; margin-left: -17%; }
+  .rayos i { position: absolute; width: 5px; transform-origin: bottom center; display: block; }
+  .roar { position: absolute; left: 0; right: 0; top: -14%; justify-content: center; }
+  .roar span {
+    font-size: clamp(34px, 10vw, 56px); font-weight: 700; color: #a8455f; white-space: nowrap;
+    text-shadow: 0 3px 0 #fdf7ec, 0 0 16px rgba(253,247,236,.95);
+  }
+  /* Telón que tapa el sobre antes de mostrar la invitación */
+  #telon {
+    position: absolute; inset: 0; pointer-events: none; opacity: 0;
+    background-color: #f3e9da;
+    background-image:
+      repeating-linear-gradient(90deg, rgba(182,211,174,.182) 0 20px, transparent 20px 40px),
+      repeating-linear-gradient(0deg, rgba(182,211,174,.182) 0 20px, transparent 20px 40px);
+  }
+  .sobre-abriendo #telon { animation: iCurtain .5s ease 1.5s both; }
+
+  /* ---------- 2. INVITACIÓN (capas sobre un lienzo de 700x840) ---------- */
+  #contenido { display: none; width: 100%; flex-direction: column; align-items: center; gap: 34px; }
+  #contenido.visible { display: flex; }
+  .tarjeta-flota { animation: iBreathe 7s ease-in-out 1.6s infinite; }
+  .tarjeta { position: relative; width: 100%; aspect-ratio: 700 / 840; box-shadow: 0 18px 40px rgba(111,125,68,.16); animation: iCard .85s cubic-bezier(.2,.8,.25,1) both; }
+  .capa { position: absolute; }                     /* left/top/width en % = posición exacta */
+  .conf { position: absolute; border-radius: 50%; }  /* confeti flotante */
+
+  /* ---------- 4. JUEGO ---------- */
+  #pista {
+    position: relative; width: 100%; height: 300px; overflow: hidden;
+    border: 4px solid #d66780; border-radius: 26px; background: #fdf7ec;
+    cursor: pointer; user-select: none; touch-action: manipulation;
+  }
+  #suelo { position: absolute; left: 0; right: 0; bottom: 0; height: 46px; background: #cdd8a6; border-top: 4px solid #b6c48c; }
+  .nube { position: absolute; border-radius: 999px; background: #eef4e2; opacity: .9; }
+  #jugador { position: absolute; left: 46px; bottom: 42px; width: 72px; transform-origin: 50% 100%; }
+  #cartel { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; text-align: center; background: rgba(253,247,236,.88); padding: 20px; }
+  #cartel.oculto { display: none; }
+
+  /* ---------- ANIMACIONES ---------- */
+  @keyframes iCard { from { opacity: 0; transform: translateY(18px) scale(.975); } to { opacity: 1; transform: none; } }
+  @keyframes iUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+  @keyframes iPop { 0% { opacity: 0; transform: scale(.82) rotate(-5deg); } 60% { opacity: 1; transform: scale(1.04) rotate(1.5deg); } 100% { opacity: 1; transform: scale(1) rotate(0); } }
+  @keyframes iName { from { opacity: 0; transform: scale(.9); } to { opacity: 1; transform: scale(1); } }
+  @keyframes iFloat { 0%, 100% { transform: translateY(0) rotate(-.6deg); } 50% { transform: translateY(-7px) rotate(.6deg); } }
+  @keyframes iBreathe { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
+  @keyframes iDrift { 0% { transform: translateY(6px) scale(.9); opacity: 0; } 25% { opacity: .85; } 100% { transform: translateY(-58px) scale(1.05); opacity: 0; } }
+  @keyframes iPulse { 0%, 100% { transform: translateY(0); box-shadow: 0 6px 0 #b34e66; } 50% { transform: translateY(-3px); box-shadow: 0 9px 0 #b34e66; } }
+  @keyframes iWiggle { 0%, 100% { transform: rotate(-1.6deg) translateY(0); } 50% { transform: rotate(1.6deg) translateY(-6px); } }
+  @keyframes iShake { 0%, 100% { transform: rotate(0); } 20% { transform: rotate(-2.5deg); } 40% { transform: rotate(2.5deg); } 60% { transform: rotate(-1.5deg); } 80% { transform: rotate(1.5deg); } }
+  @keyframes iRise { 0% { opacity: 0; transform: translateY(46%) scale(.6); } 55% { opacity: 1; transform: translateY(-12%) scale(1.06) rotate(-4deg); } 100% { opacity: 1; transform: translateY(-6%) scale(1) rotate(0); } }
+  @keyframes iRoarText { 0% { opacity: 0; transform: scale(.4) rotate(-8deg); } 45% { opacity: 1; transform: scale(1.12) rotate(2deg); } 100% { opacity: 1; transform: scale(1.02) rotate(0); } }
+  @keyframes iRay { 0% { opacity: 0; transform: scaleY(.2); } 40% { opacity: .9; transform: scaleY(1); } 100% { opacity: 0; transform: scaleY(1.15); } }
+  @keyframes iCurtain { from { opacity: 0; } to { opacity: 1; } }
+</style>
+</head>
+
+<body>
+<div class="wrap">
+
+  <!-- ==================== 1. PANTALLA DEL SOBRE ==================== -->
+  <div id="intro">
+    <div class="kicker"><i></i><span>tienes una invitación</span><i></i></div><!-- TEXTO -->
+
+    <div class="sobre" id="sobre">
+      <div class="sobre-marco">
+        <!-- Sobre CERRADO (se ve al entrar) -->
+        <img class="sobre-img" id="sobreCerrado" src="img/Sobre-close.png" alt="Sobre en forma de dinosaurio">
+
+        <!-- Sobre ABIERTO (aparece al hacer clic) -->
+        <img class="sobre-img" id="sobreAbierto" src="img/Sobre-open.png" alt="Sobre abierto">
+
+        <!-- La bebé-sauria saliendo del sobre -->
+        <div class="salida"><img src="img/Ilia.png" alt="bebé-sauria" style="width:100%"></div>
+
+        <!-- Rayitos pastel del rugido -->
+        <div class="rayos">
+          <i style="left:8%;  top:0;     height:52px; background:#f3cf8e; transform:rotate(-26deg);"></i>
+          <i style="left:49%; top:-16px; height:62px; background:#e9a7b6;"></i>
+          <i style="left:90%; top:0;     height:52px; background:#cdd8a6; transform:rotate(26deg);"></i>
+        </div>
+
+        <div class="roar"><span>¡ROAAAR!</span></div><!-- TEXTO del rugido -->
+      </div>
+    </div>
+
+    <button type="button" class="btn pulse" id="btnAbrir">Abrir el sobre</button><!-- TEXTO -->
+    <div id="telon"></div>
+  </div>
+
+  <!-- ==================== 2 · 3 · 4 (se muestran al abrir el sobre) ==================== -->
+ <div id="contenido">
+
+    <!-- ---------- 2. INVITACIÓN ANIMADA ----------
+         base.png trae el fondo, el marco ondulado y el dino del diseño.
+         Las otras 4 imágenes son las capas que se animan; sus % de
+         left/top/width corresponden al diseño original de 700x840 px. -->
+    <div class="col700 tarjeta-flota" id="invitacion">
+      <div class="tarjeta">
+        <img src="img/base.png" alt="Invitación de cumpleaños de Ilia Kassandra" style="position:absolute; inset:0; width:100%; height:100%;">
+
+        <!-- foto de Ilia con gorrito (entra con rebote y luego flota) -->
+        <div class="capa" style="left:14.8571%; top:38.8095%; width:27.7143%; animation: iPop .8s cubic-bezier(.2,.9,.25,1) 1.05s both;">
+          <img src="img/Ilia.png" alt="Ilia Kassandra" style="width:100%; animation: iFloat 4.5s ease-in-out 1.9s infinite;">
+        </div>
+
+        <!-- ---- TEXTOS REALES (editables) ----
+             Posiciones en % y tamaños en cqw (1cqw = 1% del ancho de la tarjeta),
+             calcados del diseño original de 700x840 px. -->
+        <div style="position:absolute; inset:0; animation: iUp .7s cubic-bezier(.2,.8,.25,1) .45s both;">
+          <div style="font-family:'Delius Swash Caps',sans-serif; line-height:1; white-space:nowrap; color:#6d7146; position:absolute; left:30%; width:42.857%; text-align:center; top:12.5%; font-size:2.5cqw; font-weight:400;">nuestra</div><!-- TEXTO -->
+          <div style="font-family:'Madimi One',sans-serif; line-height:1; white-space:nowrap; color:#6d7146; position:absolute; left:30%; width:42.857%; text-align:center; top:17.143%; font-size:5cqw; font-weight:500; letter-spacing:-0.029cqw;">bebé-sauria</div><!-- TEXTO -->
+          <div style="font-family:'DeliusSwash Caps',sans-serif; line-height:1; white-space:nowrap; color:#6d7146; position:absolute; left:30%; width:42.857%; text-align:center; top:23.929%; font-size:2.5cqw; font-weight:400;">esta</div><!-- TEXTO -->
+          <div style="font-family:'Madimi One',sans-serif; line-height:1; white-space:nowrap; color:#6d7146; position:absolute; left:30%; width:42.857%; text-align:center; top:28.095%; font-size:4cqw; font-weight:400; letter-spacing:-0.129cqw;">de cumpleaños</div><!-- TEXTO -->
+        </div>
+
+        <div style="position:absolute; inset:0; animation: iName .8s cubic-bezier(.2,.85,.25,1) 1.35s both;">
+          <div style="font-family:'Delius',sans-serif; line-height:1; white-space:nowrap; position:absolute; left:43.286%; top:43.333%; font-size:6cqw; font-weight:600; color:#894151;">Ilia</div><!-- TEXTO -->
+          <div style="font-family:'Delius',sans-serif; line-height:1; white-space:nowrap; position:absolute; left:43.286%; top:52.262%; font-size:6cqw; font-weight:600; color:#894151;">Kassandra</div><!-- TEXTO -->
+        </div>
+
+        <div style="position:absolute; inset:0; animation: iUp .75s cubic-bezier(.2,.8,.25,1) 1.75s both;">
+          <div style="font-family:'Madimi One',sans-serif; line-height:1; white-space:nowrap; color:#6d7146; position:absolute; left:17.286%; top:66.905%; font-size:3.5cqw; font-weight:700; letter-spacing:-0.043cqw;">Celebremos juntos este</div><!-- TEXTO -->
+          <div style="font-family:'Inter',sans-serif; line-height:1; white-space:nowrap; color:#6d7146; position:absolute; left:17.286%; top:71.667%; font-size: 2.5cqw; font-weight:700;">Domingo 18 de octubre &nbsp;&nbsp;·&nbsp;&nbsp; 13:00 p.m.</div><!-- TEXTO -->
+          <div style="font-family:'Madimi One',sans-serif; line-height:1; white-space:nowrap; color:#6d7146; position:absolute; left:17.143%; top:77.976%; font-size:3cqw; font-weight:700;transform-origin:left top; transform:scaleX(0.83);">Il Giardino dell´amore</div><!-- TEXTO -->
+          <div style="font-family:'Inter',sans-serif; line-height:1; white-space:nowrap; color:#6d7146; position:absolute; left:17.286%; top:81.905%; font-size:1.5cqw; font-weight:400;">Esquina con, Carril de Morillotla, Calle Francisco Villa,<br>Emiliano Zapata, 72810 San Andrés Cholula, Pue.</div><!-- TEXTO -->
+        </div>
+
+        <!-- confeti: duplica o borra estos puntos -->
+        <div class="conf" style="left:3%;    top:52%; width:9px; height:9px; background:#e9a7b6; animation: iDrift 6s   ease-in-out 2.4s infinite;"></div>
+        <div class="conf" style="left:93.5%; top:40%; width:7px; height:7px; background:#cdd8a6; animation: iDrift 7.5s ease-in-out 3.6s infinite;"></div>
+        <div class="conf" style="left:1.5%;  top:78%; width:7px; height:7px; background:#f3cf8e; animation: iDrift 8s   ease-in-out 5s   infinite;"></div>
+        <div class="conf" style="left:95.5%; top:68%; width:9px; height:9px; background:#e9a7b6; animation: iDrift 6.8s ease-in-out 6.2s infinite;"></div>
+      </div>
+    </div>
+
+     <!-- ---------- 3. LLAMADO A JUGAR ---------- -->
+    <div class="col700" id="cta" style="display:flex; flex-direction:column; align-items:center; gap:14px; text-align:center; animation:iUp .8s ease 2.2s both;">
+
+  <div class="kicker">
+    <i></i>
+    <span>y antes de la fiesta…</span>
+    <i></i>
+  </div>
+
+  <h2 style="margin:0; font-size:30px; line-height:1.15; color:#6f7d44;">
+    ¡Juega con la bebé-sauria!
+  </h2>
+
+  <p style="margin:0; max-width:420px; font-size:17px; line-height:1.4; color:#7f8b55;">
+    Preparamos un juego chiquito para ti.<br>
+    Los 3 primeros lugares ganarán un premio.
+  </p>
+
+  <a href="https://ihgamesmx-hub.github.io/Games/Dino_Ilia_Kass/" 
+     class="btn" 
+     id="btnJugar" 
+     style="margin-top:4px;">
+    Jugar ahora
+  </a>
+
+  <a href="https://ihgamesmx-hub.github.io/Games/Dino_Ilia_Kass/" 
+     id="linkJugar" 
+     style="font-size:15px; font-weight:600; border-bottom:2px solid #e9a7b6; padding-bottom:1px;">
+    o toca aquí para jugar ▾
+  </a>
+
+</div>
+  
+<script>
+/* =========================================================
+   1) INTRO DEL SOBRE
+   ========================================================= */
+var INTRO_MS = 2050;            // cuánto dura el ROAR antes de mostrar la invitación
+var intro    = document.getElementById('intro');
+var sobre    = document.getElementById('sobre');
+var contenido= document.getElementById('contenido');
+var abierto  = false;
+
+function abrirSobre() {
+  if (abierto) return;
+  abierto = true;
+  sobre.classList.add('abriendo');        // dispara: sobre abierto + dino + rayos + ROAR
+  intro.classList.add('sobre-abriendo');  // dispara el telón
+  setTimeout(function () {
+    intro.classList.add('oculto');
+    contenido.classList.add('visible');   // aquí arrancan las animaciones de la invitación
+  }, INTRO_MS);
+}
+sobre.addEventListener('click', abrirSobre);
+document.getElementById('btnAbrir').addEventListener('click', abrirSobre);
+
+/* =========================================================
+   2) IR AL JUEGO
+   ========================================================= */
+function irAlJuego(e) {
+  if (e) e.preventDefault();
+  var y = document.getElementById('juego').getBoundingClientRect().top + window.scrollY - 24;
+  window.scrollTo({ top: y, behavior: 'smooth' });
+}
+document.getElementById('btnJugar').addEventListener('click', irAlJuego);
+document.getElementById('linkJugar').addEventListener('click', irAlJuego);
+
+/* =========================================================
+   3) JUEGO: SALTA LOS HUEVITOS
+   Ajustes rápidos:
+     GRAVEDAD     más alto = cae más rápido
+     SALTO        más alto = salta más alto
+     VEL_INICIAL  velocidad de los huevitos al empezar
+   ========================================================= */
+var GRAVEDAD = 1900, SALTO = 640, VEL_INICIAL = 250;
+
+var pista   = document.getElementById('pista');
+var huevos  = document.getElementById('huevos');
+var jugador = document.getElementById('jugador');
+var cartel  = document.getElementById('cartel');
+var elPuntos = document.getElementById('puntos');
+var elMejor  = document.getElementById('mejor');
+var elTitulo = document.getElementById('cartelTitulo');
+var elTexto  = document.getElementById('cartelTexto');
+var elBoton  = document.getElementById('btnEmpezar');
+
+var mejor = 0;
+try { mejor = parseInt(localStorage.getItem('ilia-sauria-best') || '0', 10) || 0; } catch (e) {}
+elMejor.textContent = mejor;
+
+var jugando = false, obs = [], y = 0, vy = 0, puntos = 0, vel = 0, dist = 0, prox = 320, ultimo = 0, raf = 0, inicio = 0;
+
+function empezar() {
+  obs.forEach(function (o) { o.el.remove(); });
+  obs = []; y = 0; vy = 0; puntos = 0; dist = 0; prox = 320;
+  vel = VEL_INICIAL;
+  elPuntos.textContent = '0';
+  cartel.classList.add('oculto');
+  jugando = true;
+  ultimo = inicio = performance.now();
+  cancelAnimationFrame(raf);
+  raf = requestAnimationFrame(bucle);
+}
+
+function saltar() {
+  if (!jugando) { empezar(); return; }
+  if (performance.now() - inicio < 220) return;   // evita que el clic del botón cuente como salto
+  if (y <= 1) { vy = SALTO; }
+}
+
+function nuevoHuevo() {
+  var alto = Math.random() < 0.35;
+  var w = alto ? 34 : 40, h = alto ? 56 : 42;
+  var el = document.createElement('div');
+  el.style.cssText =
+    'position:absolute;bottom:42px;width:' + w + 'px;height:' + h + 'px;' +
+    'border-radius:50% 50% 48% 48% / 62% 62% 38% 38%;background-color:#f7e3a8;' +
+    'background-image:radial-gradient(circle at 30% 32%, #f0b8c4 3.5px, transparent 4px),' +
+    'radial-gradient(circle at 68% 58%, #f0b8c4 3.5px, transparent 4px),' +
+    'radial-gradient(circle at 40% 78%, #f0b8c4 3px, transparent 3.5px);' +
+    'box-shadow:inset -4px -6px 0 rgba(214,148,60,.16);';
+  el.style.left = pista.clientWidth + 'px';
+  huevos.appendChild(el);
+  obs.push({ el: el, x: pista.clientWidth, w: w, h: h, pasado: false });
+}
+
+function bucle(t) {
+  if (!jugando) return;
+  var dt = Math.min(0.05, (t - ultimo) / 1000);
+  ultimo = t;
+
+  vy -= GRAVEDAD * dt;
+  y += vy * dt;
+  var enSuelo = false;
+  if (y <= 0) { y = 0; vy = 0; enSuelo = true; }
+  jugador.style.transform = 'translateY(' + (-y) + 'px) rotate(' + (enSuelo ? 0 : vy * 0.006) + 'deg)';
+
+  vel += 5 * dt;
+  dist += vel * dt;
+  if (dist > prox) { nuevoHuevo(); prox = dist + 260 + Math.random() * 260; }
+
+  var px = 46, pw = 60;
+  for (var i = obs.length - 1; i >= 0; i--) {
+    var o = obs[i];
+    o.x -= vel * dt;
+    o.el.style.left = o.x + 'px';
+    if (o.x + o.w < px && !o.pasado) { o.pasado = true; puntos++; elPuntos.textContent = puntos; }
+    if (o.x < -80) { o.el.remove(); obs.splice(i, 1); continue; }
+    if (o.x < px + pw - 10 && o.x + o.w > px + 10 && y < o.h - 8) { finDePartida(); return; }
+  }
+  raf = requestAnimationFrame(bucle);
+}
+
+function finDePartida() {
+  jugando = false;
+  cancelAnimationFrame(raf);
+  if (puntos > mejor) {
+    mejor = puntos;
+    try { localStorage.setItem('ilia-sauria-best', String(mejor)); } catch (e) {}
+  }
+  elMejor.textContent = mejor;
+  elTitulo.textContent = puntos > 0 ? '¡' + puntos + ' huevitos saltados!' : '¡Uy, un huevito!';
+  elTexto.textContent  = 'Tu mejor marca es ' + mejor + '. ¿Otra vuelta antes del 18 de octubre?';
+  elBoton.textContent  = 'Jugar otra vez';
+  cartel.classList.remove('oculto');
+}
+
+pista.addEventListener('pointerdown', function (e) { e.preventDefault(); saltar(); });
+elBoton.addEventListener('click', function (e) { e.stopPropagation(); empezar(); });
+window.addEventListener('keydown', function (e) {
+  if (e.code === 'Space' || e.code === 'ArrowUp') { e.preventDefault(); saltar(); }
+});
+document.addEventListener('visibilitychange', function () { if (!document.hidden) ultimo = performance.now(); });
+</script>
+</body>
+</html>
