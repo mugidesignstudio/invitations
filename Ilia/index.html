@@ -78,6 +78,11 @@
   a:hover { color: #d66780; }
   img { display: block; }
 
+  .link-ubicacion {
+  color: #6D7146;
+  text-decoration: none;
+}
+.link-ubicacion:hover{color:#c9576f; text-decoration: none;}
   .nombre{ font-family:var(--fuente-nombre); font-size:60px; color:var(--rosa);}
   .texto{ font-family:var(--fuente-texto); font-size:28px; color:var(--verde);}
   .direccion{ font-family:var(--fuente-dir); font-size:16px; color:var(--verde);}
@@ -236,7 +241,7 @@
         <img src="img/base.png" alt="Invitación de cumpleaños de Ilia Kassandra" style="position:absolute; inset:0; width:100%; height:100%;">
 
         <!-- foto de Ilia con gorrito (entra con rebote y luego flota) -->
-        <div class="capa" style="left:14.8571%; top:38.8095%; width:27.7143%; animation: iPop .8s cubic-bezier(.2,.9,.25,1) 1.05s both;">
+        <div class="capa" style="left:14.8571%; top:34%; width:27.7143%; animation: iPop .8s cubic-bezier(.2,.9,.25,1) 1.05s both;">
           <img src="img/Ilia.png" alt="Ilia Kassandra" style="width:100%; animation: iFloat 4.5s ease-in-out 1.9s infinite;">
         </div>
 
@@ -251,15 +256,16 @@
         </div>
 
         <div style="position:absolute; inset:0; animation: iName .8s cubic-bezier(.2,.85,.25,1) 1.35s both;">
-          <div style="font-family:'Delius',sans-serif; line-height:1; white-space:nowrap; position:absolute; left:43.286%; top:43.333%; font-size:6cqw; font-weight:600; color:#894151;">Ilia</div><!-- TEXTO -->
-          <div style="font-family:'Delius',sans-serif; line-height:1; white-space:nowrap; position:absolute; left:43.286%; top:52.262%; font-size:6cqw; font-weight:600; color:#894151;">Kassandra</div><!-- TEXTO -->
+          <div style="font-family:'Delius',sans-serif; line-height:1; white-space:nowrap; position:absolute; left:43.286%; top:44%; font-size:8cqw; font-weight:600; color:#894151;">Ilia</div><!-- TEXTO -->
+          <div style="font-family:'Delius',sans-serif; line-height:1; white-space:nowrap; position:absolute; left:43.286%; top:52%; font-size:8cqw; font-weight:600; color:#894151;">Kassandra</div><!-- TEXTO -->
         </div>
 
         <div style="position:absolute; inset:0; animation: iUp .75s cubic-bezier(.2,.8,.25,1) 1.75s both;">
-          <div style="font-family:'Madimi One',sans-serif; line-height:1; white-space:nowrap; color:#6d7146; position:absolute; left:17.286%; top:66.905%; font-size:4cqw; font-weight:700; letter-spacing:-0.043cqw;">Celebremos juntos este</div><!-- TEXTO -->
-          <div style="font-family:'Inter',sans-serif; line-height:1; white-space:nowrap; color:#6d7146; position:absolute; left:17.286%; top:71.667%; font-size: 3cqw; font-weight:700;">Domingo 18 de octubre &nbsp;&nbsp;·&nbsp;&nbsp; 13:00 p.m.</div><!-- TEXTO -->
-          <div style="font-family:'Madimi One',sans-serif; line-height:1; white-space:nowrap; color:#6d7146; position:absolute; left:17.143%; top:77.976%; font-size:4cqw; font-weight:700;transform-origin:left top; transform:scaleX(0.83);">Il Giardino dell´amore</div><!-- TEXTO -->
-          <div style="font-family:'Inter',sans-serif; line-height:1; white-space:nowrap; color:#6d7146; position:absolute; left:17.286%; top:81.905%; font-size:3cqw; font-weight:400;">Esquina con, Carril de Morillotla, Calle Francisco Villa,<br>Emiliano Zapata, 72810 San Andrés Cholula, Pue.</div><!-- TEXTO -->
+          <div style="font-family:'Madimi One',sans-serif; line-height:1; white-space:nowrap; color:#6d7146; position:absolute; left:17.286%; top:66.905%; font-size:4.5cqw; font-weight:700; letter-spacing:-0.043cqw;">Celebremos juntos este</div><!-- TEXTO -->
+          <div style="font-family:'Inter',sans-serif; line-height:1; white-space:nowrap; color:#6d7146; position:absolute; left:17.286%; top:71.667%; font-size: 3.5cqw; font-weight:700;">Domingo 18 de octubre &nbsp;&nbsp;·&nbsp;&nbsp; 13:00 p.m.</div><!-- TEXTO -->
+          <div style="font-family:'Madimi One',sans-serif; line-height:1; white-space:nowrap; color:#6d7146; position:absolute; left:17.143%; top:77.976%; font-size:4.5cqw; font-weight:700;transform-origin:left top; transform:scaleX(0.83);"><a href="https://maps.app.goo.gl/eeiSagGK2jEDFczv9" class="link-ubicacion">Il Giardino dell´amore</a></div><!-- TEXTO -->
+          <div style="font-family:'Inter',sans-serif; line-height:1; white-space:nowrap; color:#6d7146; position:absolute; left:17.286%; top:81.905%; font-size:2.5cqw; font-weight:400;"><a href="https://maps.app.goo.gl/eeiSagGK2jEDFczv9" class="link-ubicacion">Toca aquí para ver la ubicación</a></div>
+          <!--<div style="font-family:'Inter',sans-serif; line-height:1; white-space:nowrap; color:#6d7146; position:absolute; left:17.286%; top:81.905%; font-size:2.5cqw; font-weight:400;"><a href="https://maps.app.goo.gl/eeiSagGK2jEDFczv9" class="link-ubicacion">Esquina con, Carril de Morillotla, Calle Francisco Villa,<br>Emiliano Zapata, 72810 San Andrés Cholula, Pue.</a></div>--><!-- TEXTO -->
         </div>
 
         <!-- confeti: duplica o borra estos puntos -->
