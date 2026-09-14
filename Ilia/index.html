@@ -82,6 +82,28 @@
   color: #6D7146;
   text-decoration: none;
 }
+
+.btn-confirmar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 24px;
+  border-radius: 999px;
+  background: #6D7146;
+  color: #FDF5EF;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: transform .2s ease, opacity .2s ease;
+}
+
+.btn-confirmar:hover {
+  color: #FDF5EF;
+  transform: translateY(-2px);
+  opacity: .9;
+}
+
 .link-ubicacion:hover{color:#c9576f; text-decoration: none;}
   .nombre{ font-family:var(--fuente-nombre); font-size:60px; color:var(--rosa);}
   .texto{ font-family:var(--fuente-texto); font-size:28px; color:var(--verde);}
@@ -282,6 +304,8 @@
           <!--<div style="font-family:'Inter',sans-serif; line-height:1; white-space:nowrap; color:#6d7146; position:absolute; left:17.286%; top:81.905%; font-size:2.5cqw; font-weight:400;"><a href="https://maps.app.goo.gl/eeiSagGK2jEDFczv9" class="link-ubicacion">Esquina con, Carril de Morillotla, Calle Francisco Villa,<br>Emiliano Zapata, 72810 San Andrés Cholula, Pue.</a></div>--><!-- TEXTO -->
         </div>
 
+        
+
         <!-- confeti: duplica o borra estos puntos -->
         <div class="conf" style="left:3%;    top:52%; width:9px; height:9px; background:#e9a7b6; animation: iDrift 6s   ease-in-out 2.4s infinite;"></div>
         <div class="conf" style="left:93.5%; top:40%; width:7px; height:7px; background:#cdd8a6; animation: iDrift 7.5s ease-in-out 3.6s infinite;"></div>
@@ -289,6 +313,13 @@
         <div class="conf" style="left:95.5%; top:68%; width:9px; height:9px; background:#e9a7b6; animation: iDrift 6.8s ease-in-out 6.2s infinite;"></div>
       </div>
     </div>
+
+    <a href="https://wa.me/522212066280?text=confirmo%20asistencia%20al%20cumplea%C3%B1os%20de%20la%20beb%C3%A9-sauria"
+   class="btn-confirmar"
+   target="_blank"
+   rel="noopener noreferrer">
+  Confirmar asistencia
+</a>
 
      <!-- ---------- 3. LLAMADO A JUGAR ---------- -->
     <div class="col700" id="cta" style="display:flex; flex-direction:column; align-items:center; gap:14px; text-align:center; animation:iUp .8s ease 2.2s both;">
